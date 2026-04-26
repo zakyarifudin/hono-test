@@ -5,6 +5,8 @@ import { authMiddleware} from './middlewares/auth.js'
 import { register, login } from './controllers/authController.js'
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from './controllers/productController.js'
 import { serveStatic } from '@hono/node-server/serve-static'
+import { validateJSON } from './helpers/validator.js'
+import { productSchema } from './validators/productValidator.js'
 
 const app = new Hono()
 
@@ -19,7 +21,7 @@ app.post('/auth/login', login)
 // Semua route yang pakai prefix /api/ akan dicek tokennya
 app.use('/api/*', authMiddleware)
 app.get('/api/products', getAllProducts)
-app.post('/api/products', createProduct)
+app.post('/api/products', validateJSON(productSchema), createProduct)
 app.put('/api/products/:id', updateProduct)
 app.delete("/api/products/:id", deleteProduct);
 
