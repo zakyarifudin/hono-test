@@ -22,7 +22,7 @@ app.post('/auth/login', login)
 app.use('/api/*', authMiddleware)
 app.get('/api/products', getAllProducts)
 app.post('/api/products', validateJSON(productSchema), createProduct)
-app.put('/api/products/:id', updateProduct)
+app.put('/api/products/:id', validateJSON(productSchema.partial()), updateProduct)
 app.delete("/api/products/:id", deleteProduct);
 
 
