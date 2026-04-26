@@ -4,8 +4,12 @@ import { Hono } from 'hono'
 import { authMiddleware} from './middlewares/auth.js'
 import { register, login } from './controllers/authController.js'
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from './controllers/productController.js'
+import { serveStatic } from '@hono/node-server/serve-static'
 
 const app = new Hono()
+
+// Upload folder 'public' untuk file upload
+app.use('/uploads/*', serveStatic({ root: './public' }))
 
 // --- Public Routes ---
 app.post('/auth/register', register)
